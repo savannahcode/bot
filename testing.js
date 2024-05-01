@@ -1,20 +1,20 @@
 require('dotenv').config()
-import fetch from 'node-fetch'
-zipcode = '84003'
 
-let weatherApiUrl = `https://api.openweathermap.org/data/2.5/weather?zip=${zipcode},us&units=imperial&appid=${process.env.WEATHER_API_KEY}`
+let apiUrl = `https://icanhazdadjoke.com/`
 
-async function getWeatherData() {
-  const response = await fetch(weatherApiUrl)
+async function getJoke() {
+  const response = await fetch(apiUrl, {
+    headers: {
+      Accept: 'application/json',
+    },
+  })
   const data = await response.json()
   return data
 }
 
-getWeatherData()
+getJoke()
   .then((data) => {
     // You can use the data here
-    console.log(
-      `Weather:\n\nIt's ${data.main.temp}°F in ${data.name}, but feels like ${data.main.feels_like}°F.`
-    )
+    console.log(data)
   })
   .catch((error) => console.log('Error:', error))
