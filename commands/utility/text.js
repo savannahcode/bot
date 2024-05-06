@@ -1,6 +1,6 @@
+require('dotenv').config()
 const { SlashCommandBuilder } = require('discord.js')
 const nodemailer = require('nodemailer')
-require('dotenv').config()
 
 module.exports = {
   data: new SlashCommandBuilder()
@@ -15,8 +15,20 @@ module.exports = {
     .addStringOption((option) =>
       option
         .setName('carrier')
-        .setDescription('Enter the mobile carrier')
+        .setDescription('The carrier of the phone number.')
         .setRequired(true)
+        .addChoices(
+          { name: 'ATT', value: 'att' },
+          { name: 'Verizon', value: 'verizon' },
+          { name: 'T-Mobile', value: 'tmobile' },
+          { name: 'Sprint', value: 'sprint' },
+          { name: 'Boost Mobile', value: 'boost mobile' },
+          { name: 'Cricket Wireless', value: 'cricket wireless' },
+          { name: 'Google Fi', value: 'google fi' },
+          { name: 'Metropcs', value: 'metropcs' },
+          { name: 'US Cellular', value: 'us cellular' },
+          { name: 'Virgin Mobile', value: 'virgin mobile' }
+        )
     )
     .addStringOption((option) =>
       option
@@ -31,7 +43,7 @@ module.exports = {
 
     // Define the SMS gateway domain for the carrier
     let carrierDomain
-    switch (carrier.toLowerCase()) {
+    switch (carrier) {
       case 'att':
         carrierDomain = '@txt.att.net'
         break
@@ -67,33 +79,27 @@ module.exports = {
         return
     }
 
-    // Create a Nodemailer transporter using SMTP (adjust as needed)
-    const transporter = nodemailer.createTransport({
-      host: 'smtp.mail.com',
-      port: 587,
-      secure: false,
-      auth: {
-        user: `${process.env.EMAIL}`, // Your email
-        pass: `${process.env.EMAIL_PASSWORD}`, // Your email password
-      },
-    })
-
     // Define the email options
     const mailOptions = {
-      from: `${process.env.EMAIL}`, // sender address
-      to: `${phoneNumber}${carrierDomain}`, // list of receivers
-      text: message, // plain text body
+      from: 'salmon.sav@gmail.com',
+      to: `${phoneNumber}${carrierDomain}`,
+      text: message,
     }
 
     // Send the email
-    transporter.sendMail(mailOptions, function (error, info) {
-      if (error) {
-        console.log(error)
-        interaction.reply('Failed to send text.')
-      } else {
-        console.log('Email sent: ' + info.response)
-        interaction.reply('Text sent')
-      }
-    })
+    nodemailer
+      .createTransport({
+        service: 'gmail',
+        auth: { user: 'salmon.sav@gmail.com', pass: 'qtnn omrd nofe vvkn' },
+      })
+      .sendMail(mailOptions, function (error, info) {
+        if (error) {
+          console.log(error)
+          interaction.reply('Failed to send text.')
+        } else {
+          console.log('Email sent: ' + info.response)
+          interaction.reply('Text sent')
+        }
+      })
   },
 }

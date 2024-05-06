@@ -1,8 +1,6 @@
-require('dotenv').config()
+/* require('dotenv').config()
 const nodemailer = require('nodemailer')
 
-console.log(process.env.EMAIL)
-console.log(process.env.EMAIL_PASSWORD)
 async function sendTestEmail() {
   let transporter = nodemailer.createTransport({
     host: 'smtp.mail.com', // Adjust as per your email provider
@@ -17,7 +15,7 @@ async function sendTestEmail() {
   try {
     let info = await transporter.sendMail({
       from: process.env.EMAIL,
-      to: 'your-test-email@example.com', // Change to your verification email
+      to: 'sav.b.everett@gmail.com', // Change to your verification email
       subject: 'Test Email',
       text: 'This is a test email from my Node.js application.',
     })
@@ -29,3 +27,4 @@ async function sendTestEmail() {
 }
 
 sendTestEmail()
+ */
